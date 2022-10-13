@@ -28,6 +28,7 @@ class ClockIn:
             "--enable-javascript",
             "start-maximized",
             "--disable-gpu",
+            "--blink-settings=imagesEnabled=false",
             "--disable-extensions",
             "--no-sandbox",
             "--disable-browser-side-navigation",
