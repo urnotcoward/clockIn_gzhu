@@ -111,25 +111,26 @@ class ClockIn:
 
             title = self.driver.title
 
-            # Unified Identity Authentication也就是统一身份认证界面
-            if title == "Unified Identity Authentication":
-                self.page = 1
-            elif title == "融合门户":
-                self.page = 2
-            elif title == "学生健康状况申报":
-                self.page = 3
-            elif title in ["填报健康信息 - 学生健康状况申报", "表单填写与审批::加载中"]:
-                self.page = 4
-            elif not title:
-                logger.info("当前页面标题为空")
+            match title:
+                # Unified Identity Authentication也就是统一身份认证界面
+                case "Unified Identity Authentication":
+                    self.page = 1
+                case "融合门户":
+                    self.page = 2
+                case "学生健康状况申报":
+                    self.page = 3
+                case "填报健康信息 - 学生健康状况申报" | "表单填写与审批::加载中":
+                    self.page = 4
+                case "":
+                    logger.info("当前页面标题为空")
 
-                refresh_times += 1
-                if refresh_times < 4:
-                    continue
+                    refresh_times += 1
+                    if refresh_times < 4:
+                        continue
 
-                raise selenium.common.exceptions.TimeoutException("页面刷新次数达到上限")
-            else:
-                self.page = 0
+                    raise selenium.common.exceptions.TimeoutException("页面刷新次数达到上限")
+                case _:
+                    self.page = 0
 
             break
 
